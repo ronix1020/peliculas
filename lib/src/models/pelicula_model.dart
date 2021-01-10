@@ -70,6 +70,14 @@ class Pelicula {
     voteCount = json['vote_count'];
 
   }
+
+  getPosterImg(){
+    if (posterPath == null){
+      return 'http://www.musicapopular.cult.cu/wp-content/uploads/2017/12/imagen-no-disponible.png';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500$posterPath';
+    }
+  }
 }
 
 
