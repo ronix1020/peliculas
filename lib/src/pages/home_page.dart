@@ -62,6 +62,7 @@ class HomePage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 5.0,),
+          
           FutureBuilder(
             future: peliculasProvider.getPopulares(),
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
