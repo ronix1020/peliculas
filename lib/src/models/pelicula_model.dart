@@ -78,6 +78,14 @@ class Pelicula {
       return 'https://image.tmdb.org/t/p/w500$posterPath';
     }
   }
+
+  getBackgroundImg(){
+    if (posterPath == null){
+      return 'http://www.musicapopular.cult.cu/wp-content/uploads/2017/12/imagen-no-disponible.png';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500$backdropPath';
+    }
+  }
 }
 
 
