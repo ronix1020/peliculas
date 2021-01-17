@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:peliculas/src/models/actores_models.dart';
 import 'package:peliculas/src/models/pelicula_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -66,5 +67,22 @@ class PeliculasProvider {
     return resp;
 
     // return await _procesarRespuesta(url);
+  }
+
+  Future<List<Actor>> getCast(String peliId) async {
+    final url = Uri.https(_url, '3/movie/$peliId/credits', {
+      'api_key': _apiKey,
+      'language': _language,
+    });
+
+    //peticion de la respuesta http
+    final resp = await http.get(url);
+
+    //creacion del mapa tipo dynamic
+    final decodedData = json.decode(resp.body);
+
+    final cast = new Cast.fromJsonList(decodedData['cast']);
+
+    return cast.actores;
   }
 }
