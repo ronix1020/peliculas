@@ -19,8 +19,8 @@ class PeliculaDetalle extends StatelessWidget {
             ),
             _posterTitulo(pelicula, context),
             _releaseDate(pelicula),
-            _description(pelicula),
-            _crearCasting(pelicula),
+            _description(pelicula, context),
+            _crearCasting(pelicula, context),
           ]),
         ),
       ],
@@ -59,7 +59,7 @@ class PeliculaDetalle extends StatelessWidget {
       child: Row(
         children: [
           Hero(
-            tag: pelicula.id,
+            tag: pelicula.uniqueId,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image(
@@ -96,21 +96,25 @@ class PeliculaDetalle extends StatelessWidget {
     );
   }
 
-  Widget _description(Pelicula pelicula) {
+  Widget _description(Pelicula pelicula, context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
-      child: Text(pelicula.overview, textAlign: TextAlign.justify),
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+      child: Text(
+        pelicula.overview,
+        textAlign: TextAlign.justify,
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
     );
   }
 
-  Widget _crearCasting(Pelicula pelicula) {
+  Widget _crearCasting(Pelicula pelicula, BuildContext context) {
     final peliProvider = new PeliculasProvider();
 
     return FutureBuilder(
       future: peliProvider.getCast(pelicula.id.toString()),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         if (snapshot.hasData) {
-          return _crearActoresPageView(snapshot.data);
+          return _crearActoresPageView(snapshot.data, context);
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -120,19 +124,21 @@ class PeliculaDetalle extends StatelessWidget {
     );
   }
 
-  Widget _crearActoresPageView(List<Actor> actores) {
+  Widget _crearActoresPageView(List<Actor> actores, BuildContext context) {
     return SizedBox(
       height: 200.0,
       child: PageView.builder(
         pageSnapping: false,
         itemCount: actores.length,
-        controller: PageController(viewportFraction: 0.3, initialPage: 1),
-        itemBuilder: (context, i) => _actorTarjeta(actores[i]),
+        controller: PageController(
+          viewportFraction: 0.3,
+          initialPage: 1),
+        itemBuilder: (context, i) => _actorTarjeta(actores[i], context),
       ),
     );
   }
 
-  Widget _actorTarjeta(Actor actor) {
+  Widget _actorTarjeta(Actor actor, BuildContext context) {
     return Container(
       child: Column(
         children: [
@@ -140,15 +146,20 @@ class PeliculaDetalle extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             child: FadeInImage(
               image: NetworkImage(actor.getFoto()),
-              placeholder: AssetImage('assets/img/no-image.jpg'),
+              fadeInDuration: Duration(milliseconds: 200),
+              placeholder: AssetImage('assets/img/loading-new.gif'),
               height: 150.0,
               fit: BoxFit.cover,
             ),
+          ),
+          SizedBox(
+            height: 10.0,
           ),
           Text(
             actor.name,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.caption,
           ),
         ],
       ),
@@ -157,23 +168,26 @@ class PeliculaDetalle extends StatelessWidget {
 
   Widget _releaseDate(Pelicula pelicula) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10.0),
-      padding: EdgeInsets.all(15.0),
-      color: Colors.blueAccent,
-        child: Column(
-          children: [
-            Text('Fecha de lanzamiento: ',
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 5.0,
-            ),
-            Text(
-              pelicula.releaseDate,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ),
-      );
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        color: Colors.blueAccent,
+      ),
+      margin: EdgeInsets.all(20.0),
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        children: [
+          Text('Fecha de lanzamiento: ',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          SizedBox(
+            height: 5.0,
+          ),
+          Text(
+            pelicula.releaseDate,
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:peliculas/src/providers/peliculas_provider.dart';
+import 'package:peliculas/src/search/search_delegate.dart';
 import 'package:peliculas/src/widgets/card_swiper_widget.dart';
 import 'package:peliculas/src/widgets/movie_horizontal.dart';
 
@@ -20,12 +21,16 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(context: context, 
+              delegate: PeliculaSearch(),
+              // query: 'Hola'
+              );
+            },
           )
         ],
       ),
-      body: Stack(
-        children: [
+      body: Stack(children: [
         Transform.rotate(
           angle: 45.0,
           child: Container(
@@ -56,7 +61,6 @@ class HomePage extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               color: Colors.white,
             ),
-            
           ),
         ),
         Container(
@@ -97,11 +101,10 @@ class HomePage extends StatelessWidget {
             child: Text(
               'Populares',
               style: TextStyle(
-                color: Colors.black,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0
-              ),
+                  color: Colors.black,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0),
             ),
           ),
           SizedBox(

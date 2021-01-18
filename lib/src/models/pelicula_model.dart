@@ -3,24 +3,20 @@ class Peliculas {
 
   Peliculas();
 
+  Peliculas.fromJsonlist(List<dynamic> jsonList) {
+    if (jsonList == null) return;
 
-  Peliculas.fromJsonlist( List<dynamic> jsonList ){
-
-    if ( jsonList == null ) return;
-
-
-    for ( var item in jsonList ){
+    for (var item in jsonList) {
       final pelicula = new Pelicula.fromJsonMap(item);
-      items.add( pelicula );
+      items.add(pelicula);
     }
-
-
-
   }
-
 }
 
 class Pelicula {
+  
+  String uniqueId;
+
   bool adult;
   String backdropPath;
   List<int> genreIds;
@@ -53,7 +49,7 @@ class Pelicula {
     this.voteCount,
   });
 
-  Pelicula.fromJsonMap( Map<String, dynamic> json ){
+  Pelicula.fromJsonMap(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     genreIds = json['genreIds'];
@@ -68,27 +64,21 @@ class Pelicula {
     video = json['video'];
     voteAverage = json['vote_average'] / 1;
     voteCount = json['vote_count'];
-
   }
 
-  getPosterImg(){
-    if (posterPath == null){
+  getPosterImg() {
+    if (posterPath == null) {
       return 'http://www.musicapopular.cult.cu/wp-content/uploads/2017/12/imagen-no-disponible.png';
     } else {
       return 'https://image.tmdb.org/t/p/w500$posterPath';
     }
   }
 
-  getBackgroundImg(){
-    if (posterPath == null){
+  getBackgroundImg() {
+    if (posterPath == null) {
       return 'http://www.musicapopular.cult.cu/wp-content/uploads/2017/12/imagen-no-disponible.png';
     } else {
       return 'https://image.tmdb.org/t/p/w500$backdropPath';
     }
   }
 }
-
-
-
-
-
