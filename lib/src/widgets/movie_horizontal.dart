@@ -56,6 +56,7 @@ class MovieHorizontal extends StatelessWidget {
               ),
             ),
           ),
+          SizedBox(height: 5.0,),
           Text(
             pelicula.title,
             overflow: TextOverflow.ellipsis,
